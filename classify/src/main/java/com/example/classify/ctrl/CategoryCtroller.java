@@ -3,6 +3,7 @@ package com.example.classify.ctrl;
 import com.alibaba.fastjson.JSON;
 import com.example.classify.entity.Category;
 import com.example.classify.service.CategoryService;
+import com.example.classify.service.ImagesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,8 +31,23 @@ public class CategoryCtroller {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private ImagesService imagesService;
+
     @PostMapping("/getCategorys")
     public String getCategorys(@RequestBody Map<String,String> map) {
         return JSON.toJSONString(categoryService.getCategorys(map.get("userId")));
+    }
+
+    @PostMapping("/logDelCategory")
+    public String logDelCategory(@RequestBody Map<String,String> map) {
+        try{
+            String categoryId = map.get("cId");
+            categoryService.logDelCategory(categoryId);
+            imagesService.logDelImages(categoryId);
+            return JSON.toJSONString("SUCCESS");
+        }catch (Exception e){
+            return JSON.toJSONString("FALSE");
+        }
     }
 }

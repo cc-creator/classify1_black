@@ -9,4 +9,6 @@ public interface CategoryService {
     void insertCategory(Category category);
 
     ArrayList<Category> getCategorys(String userId);
+
+    void logDelCategory(String categoryId);
 }

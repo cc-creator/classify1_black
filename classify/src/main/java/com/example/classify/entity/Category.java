@@ -3,7 +3,7 @@ package com.example.classify.entity;
 public class Category {
     private String categoryId;
 
-    private String title;
+    private String ctitle;
 
     private String remark;
 
@@ -13,6 +13,16 @@ public class Category {
 
     private String userId;
 
+    public String getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(String delFlag) {
+        this.delFlag = delFlag;
+    }
+
+    private String delFlag;
+
     public String getCategoryId() {
         return categoryId;
     }
@@ -21,12 +31,12 @@ public class Category {
         this.categoryId = categoryId == null ? null : categoryId.trim();
     }
 
-    public String getTitle() {
-        return title;
+    public String getCtitle() {
+        return ctitle;
     }
 
-    public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
+    public void setCtitle(String ctitle) {
+        this.ctitle = ctitle == null ? null : ctitle.trim();
     }
 
     public String getRemark() {

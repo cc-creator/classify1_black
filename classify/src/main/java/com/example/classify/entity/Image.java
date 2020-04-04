@@ -13,6 +13,16 @@ public class Image {
 
     private String datetime;
 
+    public String getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(String delFlag) {
+        this.delFlag = delFlag;
+    }
+
+    private String delFlag;
+
     public String getImageId() {
         return imageId;
     }

@@ -35,4 +35,9 @@ public class CategoryServiceImpl implements CategoryService {
 
         return categoryMapper.selectCategorys(userId);
     }
+
+    @Override
+    public void logDelCategory(String categoryId) {
+        categoryMapper.logicDeleteCategory(categoryId);
+    }
 }

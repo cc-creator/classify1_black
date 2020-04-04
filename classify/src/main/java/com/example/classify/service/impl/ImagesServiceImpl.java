@@ -40,4 +40,9 @@ public class ImagesServiceImpl implements ImagesService {
 
         return imageMapper.selectImages(categoryId);
     }
+
+    @Override
+    public void logDelImages(String categoryId) {
+        imageMapper.logicDeleteImages(categoryId);
+    }
 }

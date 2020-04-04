@@ -9,17 +9,11 @@ import java.util.ArrayList;
 @Mapper
 @Repository
 public interface CategoryMapper {
-    int deleteByPrimaryKey(String categoryId);
+    int deleteCategory(String categoryId);
 
     int insert(Category record);
 
-    int insertSelective(Category record);
-
-    Category selectByPrimaryKey(String categoryId);
-
-    int updateByPrimaryKeySelective(Category record);
-
-    int updateByPrimaryKey(Category record);
+    int logicDeleteCategory(String categoryId);
 
     ArrayList<Category> selectCategorys(String userId);
 }

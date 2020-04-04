@@ -8,105 +8,33 @@
     <result column="LABEL1" jdbcType="VARCHAR" property="label1" />
     <result column="LABEL2" jdbcType="VARCHAR" property="label2" />
     <result column="DATETIME" jdbcType="VARCHAR" property="datetime" />
+    <result column="DEL_FLAG" jdbcType="VARCHAR" property="delFlag" />
   </resultMap>
   <sql id="Base_Column_List">
-    IMAGE_ID, CATEGORY_ID, URL, LABEL1, LABEL2, DATETIME
+    IMAGE_ID, CATEGORY_ID, URL, LABEL1, LABEL2, DATETIME, DEL_FLAG
   </sql>
   <select id="selectImages" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from image
-    where CATEGORY_ID = #{categoryId,jdbcType=VARCHAR}
+    where CATEGORY_ID = #{categoryId,jdbcType=VARCHAR} and DEL_FLAG = '0'
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from image
-    where IMAGE_ID = #{imageId,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <delete id="deleteImages" parameterType="java.lang.String">
     delete from image
-    where IMAGE_ID = #{imageId,jdbcType=VARCHAR}
+    where CATEGORY_ID = #{categoryId,jdbcType=VARCHAR}
   </delete>
+  <update id="logicDeleteImages" parameterType="java.lang.String">
+    update image
+    set DEL_FLAG = '1'
+    where CATEGORY_ID = #{categoryId,jdbcType=VARCHAR}
+  </update>
   <insert id="insert" parameterType="com.example.classify.entity.Image">
     insert into image (IMAGE_ID, CATEGORY_ID, URL, 
-      LABEL1, LABEL2, DATETIME
+      LABEL1, LABEL2, DATETIME, DEL_FLAG
       )
     values (#{imageId,jdbcType=VARCHAR}, #{categoryId,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
-      #{label1,jdbcType=VARCHAR}, #{label2,jdbcType=VARCHAR}, #{datetime,jdbcType=VARCHAR}
+      #{label1,jdbcType=VARCHAR}, #{label2,jdbcType=VARCHAR}, #{datetime,jdbcType=VARCHAR}, '0'
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.example.classify.entity.Image">
-    insert into image
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="imageId != null">
-        IMAGE_ID,
-      </if>
-      <if test="categoryId != null">
-        CATEGORY_ID,
-      </if>
-      <if test="url != null">
-        URL,
-      </if>
-      <if test="label1 != null">
-        LABEL1,
-      </if>
-      <if test="label2 != null">
-        LABEL2,
-      </if>
-      <if test="datetime != null">
-        DATETIME,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="imageId != null">
-        #{imageId,jdbcType=VARCHAR},
-      </if>
-      <if test="categoryId != null">
-        #{categoryId,jdbcType=VARCHAR},
-      </if>
-      <if test="url != null">
-        #{url,jdbcType=VARCHAR},
-      </if>
-      <if test="label1 != null">
-        #{label1,jdbcType=VARCHAR},
-      </if>
-      <if test="label2 != null">
-        #{label2,jdbcType=VARCHAR},
-      </if>
-      <if test="datetime != null">
-        #{datetime,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.classify.entity.Image">
-    update image
-    <set>
-      <if test="categoryId != null">
-        CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
-      </if>
-      <if test="url != null">
-        URL = #{url,jdbcType=VARCHAR},
-      </if>
-      <if test="label1 != null">
-        LABEL1 = #{label1,jdbcType=VARCHAR},
-      </if>
-      <if test="label2 != null">
-        LABEL2 = #{label2,jdbcType=VARCHAR},
-      </if>
-      <if test="datetime != null">
-        DATETIME = #{datetime,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where IMAGE_ID = #{imageId,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.classify.entity.Image">
-    update image
-    set CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
-      URL = #{url,jdbcType=VARCHAR},
-      LABEL1 = #{label1,jdbcType=VARCHAR},
-      LABEL2 = #{label2,jdbcType=VARCHAR},
-      DATETIME = #{datetime,jdbcType=VARCHAR}
-    where IMAGE_ID = #{imageId,jdbcType=VARCHAR}
-  </update>
+
 </mapper>

@@ -3,111 +3,38 @@
 <mapper namespace="com.example.classify.mapper.CategoryMapper">
   <resultMap id="BaseResultMap" type="com.example.classify.entity.Category">
     <id column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryId" />
-    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+    <result column="CTITLE" jdbcType="VARCHAR" property="ctitle" />
     <result column="REMARK" jdbcType="VARCHAR" property="remark" />
     <result column="DATETIME" jdbcType="VARCHAR" property="datetime" />
     <result column="COVER" jdbcType="VARCHAR" property="cover" />
     <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="DEL_FLAG" jdbcType="VARCHAR" property="delFlag" />
   </resultMap>
   <sql id="Base_Column_List">
-    CATEGORY_ID, TITLE, REMARK, DATETIME, COVER, USER_ID
+    CATEGORY_ID, CTITLE, REMARK, DATETIME, COVER, USER_ID, DEL_FLAG
   </sql>
   <select id="selectCategorys" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from category
-    where USER_ID = #{userId,jdbcType=VARCHAR}
+    where USER_ID = #{userId,jdbcType=VARCHAR} and DEL_FLAG = '0'
     order by DATETIME
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from category
-    where CATEGORY_ID = #{categoryId,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <delete id="deleteCategory" parameterType="java.lang.String">
     delete from category
     where CATEGORY_ID = #{categoryId,jdbcType=VARCHAR}
   </delete>
+  <update id="logicDeleteCategory" parameterType="java.lang.String">
+    update category
+    set DEL_FLAG = '1'
+    where CATEGORY_ID = #{categoryId,jdbcType=VARCHAR}
+  </update>
   <insert id="insert" parameterType="com.example.classify.entity.Category">
-    insert into category (CATEGORY_ID, TITLE, REMARK, 
-      DATETIME, COVER, USER_ID
+    insert into category (CATEGORY_ID, CTITLE, REMARK,
+      DATETIME, COVER, USER_ID, DEL_FLAG
       )
-    values (#{categoryId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{datetime,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}
+    values (#{categoryId,jdbcType=VARCHAR}, #{ctitle,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+      #{datetime,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, '0'
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.example.classify.entity.Category">
-    insert into category
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="categoryId != null">
-        CATEGORY_ID,
-      </if>
-      <if test="title != null">
-        TITLE,
-      </if>
-      <if test="remark != null">
-        REMARK,
-      </if>
-      <if test="datetime != null">
-        DATETIME,
-      </if>
-      <if test="cover != null">
-        COVER,
-      </if>
-      <if test="userId != null">
-        USER_ID,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="categoryId != null">
-        #{categoryId,jdbcType=VARCHAR},
-      </if>
-      <if test="title != null">
-        #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null">
-        #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="datetime != null">
-        #{datetime,jdbcType=VARCHAR},
-      </if>
-      <if test="cover != null">
-        #{cover,jdbcType=VARCHAR},
-      </if>
-      <if test="userId != null">
-        #{userId,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.classify.entity.Category">
-    update category
-    <set>
-      <if test="title != null">
-        TITLE = #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null">
-        REMARK = #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="datetime != null">
-        DATETIME = #{datetime,jdbcType=VARCHAR},
-      </if>
-      <if test="cover != null">
-        COVER = #{cover,jdbcType=VARCHAR},
-      </if>
-      <if test="userId != null">
-        USER_ID = #{userId,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where CATEGORY_ID = #{categoryId,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.classify.entity.Category">
-    update category
-    set TITLE = #{title,jdbcType=VARCHAR},
-      REMARK = #{remark,jdbcType=VARCHAR},
-      DATETIME = #{datetime,jdbcType=VARCHAR},
-      COVER = #{cover,jdbcType=VARCHAR},
-      USER_ID = #{userId,jdbcType=VARCHAR}
-    where CATEGORY_ID = #{categoryId,jdbcType=VARCHAR}
-  </update>
 </mapper>

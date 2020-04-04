@@ -9,17 +9,12 @@ import java.util.ArrayList;
 @Mapper
 @Repository
 public interface ImageMapper {
-    int deleteByPrimaryKey(String imageId);
+
+    int deleteImages(String imageId);
 
     int insert(Image record);
 
-    int insertSelective(Image record);
-
-    Image selectByPrimaryKey(String imageId);
-
-    int updateByPrimaryKeySelective(Image record);
-
-    int updateByPrimaryKey(Image record);
-
     ArrayList<Image> selectImages(String categoryId);
+
+    void logicDeleteImages(String categoryId);
 }

@@ -15,6 +15,10 @@ import java.util.ArrayList;
  * @company 中国软件与技术服务股份有限公司
  */
 public interface ImagesService {
+
     String insertImages(Image image);
+
     ArrayList<Image> selectImages(String categoryId);
+
+    void logDelImages(String categoryId);
 }

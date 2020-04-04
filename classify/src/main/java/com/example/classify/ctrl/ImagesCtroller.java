@@ -44,14 +44,14 @@ public class ImagesCtroller {
         /*上传图片到nginx服务器，取得url*/
         String[] urls = FTPUtil.uploadFile(images);
         String userId = request.getParameter("userId");
-        String title = request.getParameter("title");
+        String ctitle = request.getParameter("ctitle");
         String remark = request.getParameter("remark");
         String dateTime = request.getParameter("dateTime");
         Category category = new Category();
         String categoryId = UUID.randomUUID().toString().replace("-", "");
         category.setCategoryId(categoryId);
         category.setUserId(userId);
-        category.setTitle(title);
+        category.setCtitle(ctitle);
         category.setRemark(remark);
         category.setDatetime(dateTime);
         category.setCover(urls[0]);
