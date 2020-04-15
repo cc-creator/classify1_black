@@ -50,4 +50,27 @@ public class CategoryCtroller {
             return JSON.toJSONString("FALSE");
         }
     }
+
+    @PostMapping("/updateCategory")
+    public String updateCategory(@RequestBody Map<String,String> map) {
+        try{
+            String ctitle = map.get("ctitle");
+            String remark = map.get("remark");
+            String time = map.get("time");
+            String dateTime = map.get("dateTime");
+            String pdfUri = map.get("pdfUri");
+            String categoryId = map.get("categoryId");
+            Category category = new Category();
+            category.setCategoryId(categoryId);
+            category.setCtitle(ctitle);
+            category.setRemark(remark);
+            category.setTime(time);
+            category.setDatetime(dateTime);
+            category.setPdfUri(pdfUri);
+            categoryService.updateCategory(category);
+            return JSON.toJSONString("SUCCESS");
+        }catch (Exception e){
+            return JSON.toJSONString("FALSE");
+        }
+    }
 }

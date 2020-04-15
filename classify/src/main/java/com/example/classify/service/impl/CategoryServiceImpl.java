@@ -40,4 +40,9 @@ public class CategoryServiceImpl implements CategoryService {
     public void logDelCategory(String categoryId) {
         categoryMapper.logicDeleteCategory(categoryId);
     }
+
+    @Override
+    public void updateCategory(Category category) {
+        categoryMapper.updateCategory(category);
+    }
 }

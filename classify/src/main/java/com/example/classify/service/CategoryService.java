@@ -11,4 +11,6 @@ public interface CategoryService {
     ArrayList<Category> getCategorys(String userId);
 
     void logDelCategory(String categoryId);
+
+    void updateCategory(Category category);
 }

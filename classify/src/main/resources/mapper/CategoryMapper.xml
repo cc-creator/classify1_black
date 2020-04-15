@@ -5,20 +5,22 @@
     <id column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryId" />
     <result column="CTITLE" jdbcType="VARCHAR" property="ctitle" />
     <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="TIME" jdbcType="VARCHAR" property="time" />
     <result column="DATETIME" jdbcType="VARCHAR" property="datetime" />
     <result column="COVER" jdbcType="VARCHAR" property="cover" />
+    <result column="PDFURI" jdbcType="VARCHAR" property="pdfUri" />
     <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
     <result column="DEL_FLAG" jdbcType="VARCHAR" property="delFlag" />
   </resultMap>
   <sql id="Base_Column_List">
-    CATEGORY_ID, CTITLE, REMARK, DATETIME, COVER, USER_ID, DEL_FLAG
+    CATEGORY_ID, CTITLE, REMARK, TIME, DATETIME, COVER, PDFURI, USER_ID, DEL_FLAG
   </sql>
   <select id="selectCategorys" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from category
     where USER_ID = #{userId,jdbcType=VARCHAR} and DEL_FLAG = '0'
-    order by DATETIME
+    order by DATETIME desc
   </select>
   <delete id="deleteCategory" parameterType="java.lang.String">
     delete from category
@@ -30,11 +32,31 @@
     where CATEGORY_ID = #{categoryId,jdbcType=VARCHAR}
   </update>
   <insert id="insert" parameterType="com.example.classify.entity.Category">
-    insert into category (CATEGORY_ID, CTITLE, REMARK,
-      DATETIME, COVER, USER_ID, DEL_FLAG
+    insert into category (CATEGORY_ID, CTITLE, REMARK, TIME,
+      DATETIME, COVER, PDFURI, USER_ID, DEL_FLAG
       )
     values (#{categoryId,jdbcType=VARCHAR}, #{ctitle,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
-      #{datetime,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, '0'
+      #{time,jdbcType=VARCHAR}, #{datetime,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR}, #{pdfUri,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, '0'
       )
   </insert>
+  <update id="updateCategory" parameterType="com.example.classify.entity.Category">
+    update category
+    set
+    <if test="ctitle != null">
+      CTITLE = #{ctitle,jdbcType=VARCHAR},
+    </if>
+    <if test="remark != null">
+      REMARK = #{remark,jdbcType=VARCHAR},
+    </if>
+    <if test="time != null">
+      TIME = #{time,jdbcType=VARCHAR},
+    </if>
+    <if test="datetime != null">
+      DATETIME = #{datetime,jdbcType=VARCHAR},
+    </if>
+    <if test="pdfUri != null">
+      PDFURI = #{pdfUri,jdbcType=VARCHAR}
+    </if>
+    where CATEGORY_ID = #{categoryId,jdbcType=VARCHAR}
+  </update>
 </mapper>

@@ -21,14 +21,14 @@ import java.util.UUID;
  */
 public class FTPUtil {
 
-    //ftp服务器ip地址
-    private static final String FTP_ADDRESS = "192.168.15.128";
+    //ftp服务器ip地址 net:192.168.15.128 桥接:192.168.43.90 阿里:39.106.209.58
+    private static final String FTP_ADDRESS = "39.106.209.58";
     //端口号
     private static final int FTP_PORT = 21;
     //用户名
     private static final String FTP_USERNAME = "ftpuser";
     //密码
-    private static final String FTP_PASSWORD = "cc221710";
+    private static final String FTP_PASSWORD = "ftp221710"; //cc221710 ftp221710
     //图片路径
     private static final String FTP_BASEPATH = "./www/images/";
 
@@ -57,7 +57,7 @@ public class FTPUtil {
                         String suffix = image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf("."));
                         //拼接图片或文件名称，32位随机uuid+后缀名
                         String fileName = UUID.randomUUID().toString().replace("-", "").toLowerCase() + suffix;
-                        result[i++] = "http://192.168.15.128/images/"+fileName;
+                        result[i++] = "http://"+ FTP_ADDRESS +"/images/"+fileName;
                         inputStream = image.getInputStream();
                         ftp.storeFile(fileName,inputStream);
                         System.out.println(fileName);

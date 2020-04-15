@@ -7,11 +7,25 @@ public class Category {
 
     private String remark;
 
+    private String time;
+
     private String datetime;
 
     private String cover;
 
+    private String pdfUri;
+
     private String userId;
+
+    private String delFlag;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public String getDelFlag() {
         return delFlag;
@@ -20,8 +34,6 @@ public class Category {
     public void setDelFlag(String delFlag) {
         this.delFlag = delFlag;
     }
-
-    private String delFlag;
 
     public String getCategoryId() {
         return categoryId;
@@ -61,6 +73,14 @@ public class Category {
 
     public void setCover(String cover) {
         this.cover = cover == null ? null : cover.trim();
+    }
+
+    public String getPdfUri() {
+        return pdfUri;
+    }
+
+    public void setPdfUri(String pdfUri) {
+        this.pdfUri = pdfUri;
     }
 
     public String getUserId() {

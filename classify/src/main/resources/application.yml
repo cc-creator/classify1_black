@@ -1,8 +1,10 @@
 spring:
   datasource:
     username: root
-    password: 221710
-    url: jdbc:mysql://localhost:3306/classify?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+#    password: 221710
+#    url: jdbc:mysql://localhost:3306/classify?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    password: <Mysql221710>
+    url: jdbc:mysql://39.106.209.58:3306/classify?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
   type: com.alibaba.druid.pool.DruidDataSource
   servlet:

@@ -16,4 +16,6 @@ public interface CategoryMapper {
     int logicDeleteCategory(String categoryId);
 
     ArrayList<Category> selectCategorys(String userId);
+
+    void updateCategory(Category category);
 }

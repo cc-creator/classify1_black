@@ -36,8 +36,8 @@ public class ImagesCtroller {
     @Autowired
     private ImagesService imagesService;
 
-    @PostMapping("/uploadImages")
-    public String uploadImages(HttpServletRequest request){
+    @PostMapping("/uploadCategory")
+    public String uploadCategory(HttpServletRequest request){
 
         MultipartHttpServletRequest params=((MultipartHttpServletRequest) request);
         List<MultipartFile> images = params.getFiles("images");
@@ -46,14 +46,18 @@ public class ImagesCtroller {
         String userId = request.getParameter("userId");
         String ctitle = request.getParameter("ctitle");
         String remark = request.getParameter("remark");
+        String time = request.getParameter("time");
         String dateTime = request.getParameter("dateTime");
+        String pdfUri = request.getParameter("pdfUri");
         Category category = new Category();
         String categoryId = UUID.randomUUID().toString().replace("-", "");
         category.setCategoryId(categoryId);
         category.setUserId(userId);
         category.setCtitle(ctitle);
         category.setRemark(remark);
+        category.setTime(time);
         category.setDatetime(dateTime);
+        category.setPdfUri(pdfUri);
         category.setCover(urls[0]);
         categoryService.insertCategory(category);
         String[] dateTimes = request.getParameterValues("dateTimes");
@@ -81,4 +85,44 @@ public class ImagesCtroller {
         return JSON.toJSONString(imagesService.selectImages(map.get("categoryId")));
     }
 
+    @PostMapping("/uploadImages")
+    public String uploadImages(HttpServletRequest request){
+
+        MultipartHttpServletRequest params=((MultipartHttpServletRequest) request);
+        List<MultipartFile> images = params.getFiles("images");
+        /*上传图片到nginx服务器，取得url*/
+        String[] urls = FTPUtil.uploadFile(images);
+        String ctitle = request.getParameter("ctitle");
+        String remark = request.getParameter("remark");
+        String time = request.getParameter("time");
+        String dateTime = request.getParameter("dateTime");
+        String pdfUri = request.getParameter("pdfUri");
+        Category category = new Category();
+        String categoryId = request.getParameter("categoryId");
+        category.setCategoryId(categoryId);
+        category.setCtitle(ctitle);
+        category.setRemark(remark);
+        category.setTime(time);
+        category.setDatetime(dateTime);
+        category.setPdfUri(pdfUri);
+        categoryService.updateCategory(category);
+        String[] dateTimes = request.getParameterValues("dateTimes");
+        String[] label1s = request.getParameterValues("label1s");
+        String[] label2s = request.getParameterValues("label2s");
+        for(int i=0;i<urls.length;i++){
+            Image temp_image = new Image();
+            temp_image.setUrl(urls[i]);
+            temp_image.setImageId(UUID.randomUUID().toString().replace("-", ""));
+            temp_image.setCategoryId(categoryId);
+            temp_image.setDatetime(dateTimes[i]);
+            temp_image.setLabel1(label1s[i]);
+            temp_image.setLabel2(label2s[i]);
+            try {
+                imagesService.insertImages(temp_image);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return JSON.toJSONString("SUCCESS");
+    }
 }
